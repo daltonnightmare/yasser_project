@@ -24,6 +24,7 @@ INSTALLED_APPS = [
     'base',
     'authentification',
     'leaflet',
+    'django_extensions',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -65,7 +66,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'gestion_dechets.wsgi.application'
 
 LEAFLET_CONFIG = {
-    'DEFAULT_CENTER': (46.227638, 2.213749),  # Centre de la France
+    'DEFAULT_CENTER': (12.3714, -1.5197),  # Centre de la ouagadougou
     'DEFAULT_ZOOM': 6,
     'MAX_ZOOM': 20,
     'MIN_ZOOM': 3,
@@ -85,7 +86,7 @@ LEAFLET_CONFIG = {
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': 'gestion_des_dechets',
         'USER': 'willy',
         'PASSWORD': 'Daltonnightmare@1503',
@@ -129,6 +130,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

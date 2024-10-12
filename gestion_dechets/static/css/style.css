@@ -1,0 +1,36 @@
+.navbar-brand img {
+    height: 40px;
+}
+
+.hero {
+    background-image: url('https://source.unsplash.com/1600x900/?nature,environment');
+    background-size: cover;
+    background-position: center;
+}
+
+.card {
+    transition: all 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.table-container {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.badge-collecte {
+    background-color: #28a745;
+}
+
+.badge-traitement {
+    background-color: #17a2b8;
+}
+
+.badge-recyclage {
+    background-color: #ffc107;
+}

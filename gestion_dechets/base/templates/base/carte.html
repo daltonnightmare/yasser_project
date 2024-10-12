@@ -1,6 +1,6 @@
 {% extends 'base/basework.html' %}
 {% load leaflet_tags %}
-
+{% load static %}
 {% block extra_css %}
     {% leaflet_css %}
 {% endblock %}
@@ -13,31 +13,7 @@
     <h1>Carte du Burkina Faso</h1>
     <div id="map" style="width: 100%; height: 500px;"></div>
 
-    <script>
-        function map_init_basic (map, options) {
-            // Coordonnées du centre du Burkina Faso
-            var center = [12.238, -1.561];
-            
-            // Définir la vue sur le Burkina Faso
-            map.setView(center, 7);
-
-            // Définir les limites de la carte pour le Burkina Faso
-            var southWest = L.latLng(9.4, -5.5);
-            var northEast = L.latLng(15.1, 2.4);
-            var bounds = L.latLngBounds(southWest, northEast);
-
-            // Restreindre la vue à ces limites
-            map.setMaxBounds(bounds);
-            map.on('drag', function() {
-                map.panInsideBounds(bounds, { animate: false });
-            });
-
-            // Ajouter une couche OpenStreetMap
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors'
-            }).addTo(map);
-        }
-    </script>
+    <script src="{% static 'js/map.js' %}"></script>
 
     {% leaflet_map "map" callback="window.map_init_basic" %}
 {% endblock %}
