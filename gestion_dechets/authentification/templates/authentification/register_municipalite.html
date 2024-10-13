@@ -16,11 +16,10 @@
                     </div>
                     <div class="card-body">
                         <form method="POST" action="">
-                            {% csrf_token %}
-                            
+                        {% csrf_token %}
                             <div class="mb-3"><div class="mb-3">
-                                <label for="username" class="form-label">Nom d'utilisateur</label>
-                                <input type="text" class="form-control" id="username" name="username" required>
+                                <label for="username" class="form-label">Nom de la municipalité</label>
+                                <input type="text" class="form-control" id="username" name="nom_municipalite" required>
                             </div>
                             <div class="mb-3">
                                 <label for="email" class="form-label">Adresse e-mail</label>
@@ -36,36 +35,43 @@
                                 <label for="password2" class="form-label">Confirmer le mot de passe</label>
                                 <input type="password" class="form-control" id="password2" name="password2" required>
                             </div>
-                            {% if municipalitees %}
-                            <div>
-                                
-                                <label for="municipalite" class="form-label">Municipalité</label>
-                                <select>
-                                    {% for municipalite in municipalitees %}
-                                    <option value="{{municipalite}}">{{municipalite}}</option>
-                                    {% endfor %}
-                                </select>
-
+                            <div class="form-group">
+                                <label for="region">Région</label>
+                                    <select name="region" id="region" class="form-control">
+                                        <option value="">Sélectionnez une région</option>
+                                        <option value="BOUCLE DU MOUHOUN">Boucle du Mouhoun</option>
+                                        <option value="CASCADES">Cascades</option>
+                                        <option value="CENTRE">Centre</option>
+                                        <option value="CENTRE-EST">Centre-Est</option>
+                                        <option value="CENTRE-NORD">Centre-Nord</option>
+                                        <option value="CENTRE-OUEST">Centre-Ouest</option>
+                                        <option value="CENTRE-SUD">Centre-Sud</option>
+                                        <option value="EST">Est</option>
+                                        <option value="HAUTS-BASSINS">Hauts-Bassins</option>
+                                        <option value="NORD">Nord</option>
+                                        <option value="PLATEAU-CENTRAL">Plateau-Central</option>
+                                        <option value="SAHEL">Sahel</option>
+                                        <option value="SUD-OUEST">Sud-Ouest</option>
+                                    </select>
                             </div>
-                            {% else %}
-                            <div>
-                                <h1>Aucune municipalitées pour le moment</h1>
+
+                            <div class="form-group">
+                                <label for="population">Population</label>
+                                <input type="number" name="population" id="population" class="form-control" placeholder="Entrez la population">
                             </div>
-                            {% endif %}
 
-                            <button type="submit" class="btn btn-primary w-100">S'inscrire</button>
+                                <button type="submit" class="btn btn-primary">Soumettre</button>
+                        </form>
+                        <div class="card-footer text-center">
+                            <p class="mb-0">Déjà inscrit ? <a href="{% url 'authentification:login' %}">Connectez-vous ici</a></p>
 
-                    </form>
-                    <div class="card-footer text-center">
-                        <p class="mb-0">Déjà inscrit ? <a href="{% url 'authentification:login' %}">Connectez-vous ici</a></p>
-                        <p class="mb-0">vous etes une entreprise ?<a href="{% url 'authentification:register_entreprise' %}">creer votre compte ici</a></p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 </html>

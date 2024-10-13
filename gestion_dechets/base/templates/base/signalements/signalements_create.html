@@ -1,0 +1,70 @@
+{% extends 'base/signalements/base_signalement.html' %}
+
+{% block content %}
+	<form method="POST" enctype="multipart/form-data" action="">
+    {% csrf_token %}
+    
+    <!-- Titre -->
+    <div class="form-group">
+        <label for="titre">Titre du signalement</label>
+        <input type="text" class="form-control" id="titre" name="titre" placeholder="Entrez le titre du signalement" required>
+    </div>
+
+    <!-- Description -->
+    <div class="form-group">
+        <label for="description">Description</label>
+        <textarea class="form-control" id="description" name="description" rows="3" placeholder="Décrivez le problème rencontré" required></textarea>
+    </div>
+
+    <!-- Adresse -->
+    <div class="form-group">
+        <label for="adresse">Adresse</label>
+        <input type="text" class="form-control" id="adresse" name="adresse" placeholder="Entrez l'adresse exacte" required>
+    </div>
+
+    <!-- Type de déchet -->
+    <div class="form-group">
+        <label for="type_dechet">Type de déchet</label>
+        <select class="form-control" id="type_dechet" name="type_dechet">
+            <option value="" disabled selected>Sélectionnez le type de déchet</option>
+            <!-- Dynamique : remplacer les options par les objets DechetType -->
+            <option value="1">Plastique</option>
+            <option value="2">Métal</option>
+            <option value="3">Verre</option>
+        </select>
+    </div>
+
+    <!-- Statut -->
+    <div class="form-group">
+        <label for="statut">Statut</label>
+        <select class="form-control" id="statut" name="statut">
+            <option value="EN_ATTENTE" selected>En attente</option>
+            <option value="EN_COURS">En cours de traitement</option>
+            <option value="RESOLU">Résolu</option>
+            <option value="REJETE">Rejeté</option>
+        </select>
+    </div>
+
+    <!-- Date de résolution (optionnelle) -->
+    <div class="form-group">
+        <label for="date_resolution">Date de résolution</label>
+        <input type="datetime-local" class="form-control" id="date_resolution" name="date_resolution">
+    </div>
+
+    <!-- Photo du signalement -->
+    <div class="form-group">
+        <label for="photo">Télécharger une photo</label>
+        <input type="file" class="form-control-file" id="photo" name="photo" accept="image/*">
+    </div>
+
+    <!-- Localisation -->
+    <div class="form-group">
+        <label for="localisation">Localisation (Latitude, Longitude)</label>
+        <input type="text" class="form-control" id="localisation" name="localisation" placeholder="Entrez la localisation (format: latitude, longitude)" required>
+    </div>
+
+    <!-- Bouton de soumission -->
+    <button type="submit" class="btn btn-primary">Soumettre le signalement</button>
+</form>
+
+{% endblock %}

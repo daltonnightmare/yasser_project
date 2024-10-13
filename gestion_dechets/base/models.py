@@ -2,6 +2,8 @@ from django.db import models
 from authentification.models import User
 from django.conf import settings
 from django.contrib.gis.db import models as gis_models
+from django.utils import timezone
+from datetime import timedelta
 
 # Create your models here.
 class Municipalite(models.Model):
@@ -14,10 +16,10 @@ class Municipalite(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='municipalite')
     region = models.CharField(max_length=100, unique=True, choices = REGION_CHOICES)
     population = models.IntegerField()
-    zone_geographique = gis_models.PolygonField(srid=4326, null=True, blank=True)
+    
     
     def __str__(self):
-        return self.nom
+        return self.user.username
 
 class Entreprise(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='entreprise')
@@ -26,14 +28,33 @@ class Entreprise(models.Model):
     localisation = gis_models.PointField(srid=4326, null=True, blank=True)
     
     def __str__(self):
-        return self.nom
+        return self.user.username
 
 class Admin(models.Model):
     user_admin = models.ForeignKey(to=User, on_delete=models.CASCADE)
-    pass
+
+    def __str__(self):
+        return self.user_admin.username
+
 
 class DechetType(models.Model):
-    nom = models.CharField(max_length=100)
+    DECHET_TYPE_CHOICES = [
+    ('PLASTIQUE', 'Plastique'),
+    ('PAPIER_CARTON', 'Papier/Carton'),
+    ('VERRE', 'Verre'),
+    ('METAL', 'Métal'),
+    ('DECHET_ORGANIQUE', 'Déchet organique'),
+    ('DECHET_ELECTRONIQUE', 'Déchet électronique'),
+    ('TEXTILE', 'Textile'),
+    ('BOIS', 'Bois'),
+    ('PILE_BATTERIE', 'Piles/Batteries'),
+    ('DECHET_MEDICAL', 'Déchet médical'),
+    ('DECHET_DANGEREUX', 'Déchet dangereux'),
+    ('AUTRE', 'Autre'),
+    ('INCONNU', 'Inconnu'),
+    ('NON_DEFINI', 'Non défini'),
+    ]
+    nom = models.CharField(max_length=100, choices = DECHET_TYPE_CHOICES)
     description = models.TextField(null=True, blank=True)
     
     def __str__(self):
@@ -46,7 +67,10 @@ class Citoyen(models.Model):
     localisation = gis_models.PointField(srid=4326, null=True, blank=True)
     
     def __str__(self):
-        return f"{self.prenom} {self.nom}"
+        return f"{self.user.username} - {self.adresse}"
+
+def timeresolution():
+    return timezone.now() + timedelta(days=6)
 
 class Signalement(models.Model):
     STATUT_CHOICES = [
@@ -66,14 +90,13 @@ class Signalement(models.Model):
     date_signalement = models.DateTimeField(auto_now_add=True)
     
     statut = models.CharField(max_length=20, choices=STATUT_CHOICES, default='EN_ATTENTE')
-    date_resolution = models.DateTimeField(null=True, blank=True)
+    date_resolution = models.DateTimeField(null=True, blank=True, default= timeresolution)
     
     photo = models.ImageField(upload_to='signalements/', null=True, blank=True)
     localisation = gis_models.PointField(srid=4326, null=True, blank=True)
-    
     def __str__(self):
         return f"Signalement {self.id} - {self.titre} ({self.get_statut_display()})"
-
+    
 class PointCollecte(models.Model):
     JOURS_CHOICES = [
         ('LUNDI', 'Lundi'),
@@ -118,7 +141,7 @@ class EtatCollecte(models.Model):
     localisation = gis_models.PointField(srid=4326, null=True, blank=True)
 
     def __str__(self):
-        return f"État collecte - {self.municipalite.nom} - {self.quartier}"
+        return f"État collecte - {self.municipalite.user.username} - {self.quartier}"
     
 class Dechet(models.Model):
     entreprise = models.ForeignKey(Entreprise, on_delete=models.CASCADE, related_name='dechets')
@@ -128,4 +151,4 @@ class Dechet(models.Model):
     localisation = gis_models.PointField(srid=4326, null=True, blank=True)
 
     def __str__(self):
-        return f"Déchet - {self.entreprise.nom} - {self.type_dechet.nom} ({self.quantite} tonnes)"
+        return f"Déchet - {self.entreprise.user.username} - {self.type_dechet.nom} ({self.quantite} tonnes)"

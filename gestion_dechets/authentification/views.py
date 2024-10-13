@@ -42,14 +42,37 @@ def register_entreprise(request):
 
 def register_Municipalite(request):
     if request.method == 'POST':
-        nom_municipalite = request.POST.get('username')
+        nom_municipalite = request.POST.get('nom_municipalite')
         email = request.POST.get('email')
+        region = request.POST.get('region')
+        population = request.POST.get('population')
         mot_de_passe = request.POST.get('password1')
         confirmer_mot_de_passe = request.POST.get('password2')
         if mot_de_passe == confirmer_mot_de_passe:
             user = User.objects.create_user(username=nom_municipalite, email=email, password=mot_de_passe, is_municipalite=True)
             user.save()
+            municipalite = Municipalite.objects.create(user = user, region = region, population = population)
+            municipalite.save()
             return redirect('authentification:login')
+        return render(request, 'authentification/register_municipalite.html')
+    return render(request, 'authentification/register_municipalite.html')
+
+def register_Admin(request):
+    if request.method == 'POST':
+        nom_admin = request.POST.get('username')
+        email = request.POST.get('email')
+        mot_de_passe = request.POST.get('password1')
+        confirmer_mot_de_passe = request.POST.get('password2')
+        if mot_de_passe == confirmer_mot_de_passe:
+            user = User.objects.create_user(username=nom_admin, email=email, password=mot_de_passe, is_superuser=True, is_staff=True)
+            user.save()
+            admin = Admin.objects.create(user = user)
+            admin.save()
+            return redirect('authentification:login')
+        return render(request, 'authentification/register_admin.html')
+    return render(request, 'authentification/register_admin.html')
+
+
 def Login(request):
     if request.method == 'POST':
         email = request.POST.get('email')

@@ -1,0 +1,64 @@
+{% extends "base/signalements/base_signalement.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Liste des signalements</h2>
+    
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Titre</th>
+                <th>Description</th>
+                <th>Adresse</th>
+                <th>Date de signalement</th>
+                <th>Statut</th>
+                <th>Type de déchet</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for signalement in signalements %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ signalement.titre }}</td>
+                <td>{{ signalement.description|truncatewords:10 }}</td>
+                <td>{{ signalement.adresse }}</td>
+                <td>{{ signalement.date_signalement|date:"d/m/Y H:i" }}</td>
+                <td>{{ signalement.get_statut_display }}</td>
+                <td>{{ signalement.type_dechet }}</td>
+                <td>
+                    <a href="" class="btn btn-info btn-sm">Détails</a>
+                    <a href="" class="btn btn-warning btn-sm">Modifier</a>
+                    <a href="" class="btn btn-danger btn-sm">Supprimer</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="8">Aucun signalement trouvé.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+    <button><a href="{% url 'base:Signaler' %}" title="">Faire un signalement</a></button>
+
+    <!-- Pagination -->
+    <nav>
+        <ul class="pagination">
+            {% if signalements.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page=1">Début</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ signalements.previous_page_number }}">Précédent</a></li>
+            {% endif %}
+            
+            <li class="page-item disabled"><a class="page-link" href="#">{{ signalements.number }} de {{ signalements.paginator.num_pages }}</a></li>
+            
+            {% if signalements.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ signalements.next_page_number }}">Suivant</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ signalements.paginator.num_pages }}">Fin</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+{% endblock %}

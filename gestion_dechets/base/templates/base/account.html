@@ -46,7 +46,7 @@
                                 {% elif user.is_municipalite %}
                                     Municipalité
                                 {% else %}
-                                    Non spécifié
+                                    Administrateur
                                 {% endif %}
                             </div>
                         </div>
@@ -86,6 +86,9 @@
                                 <div class="col-sm-9 text-secondary">
                                     {{ user.citoyen.municipalite.nom }}
                                 </div>
+                            </div>
+                            <div class="row mb-3">
+                                <a href="" title=""><button>Faire un signalement</button></a>
                             </div>
                         {% elif user.is_entreprise %}
                             <div class="row mb-3">
