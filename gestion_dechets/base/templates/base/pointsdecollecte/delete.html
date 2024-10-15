@@ -1,1 +1,15 @@
-delete.html
+{% extends 'base/pointsdecollecte/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1>Supprimer le point de collecte</h1>
+    <div class="alert alert-danger" role="alert">
+        Êtes-vous sûr de vouloir supprimer le point de collecte "{{ point.nom }}" ?
+    </div>
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Confirmer la suppression</button>
+        <a href="{% url 'point_collecte_detail' point.id %}" class="btn btn-secondary">Annuler</a>
+    </form>
+</div>
+{% endblock %}

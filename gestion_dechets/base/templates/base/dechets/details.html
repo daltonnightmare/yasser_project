@@ -1,0 +1,9 @@
+{% extends 'base/dechets/base.html' %}
+
+{% block content %}
+    <h1>Détails du déchet</h1>
+    <p>Nom: {{ dechet.nom }}</p>
+    <p>Description: {{ dechet.description }}</p>
+    <p>Poids: {{ dechet.poids }}</p>
+    <p>Date de collecte: {{ dechet.date_collecte }}</p>
+{% endblock %}

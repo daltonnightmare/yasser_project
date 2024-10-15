@@ -1,0 +1,43 @@
+{% extends 'base/operations/base.html' %}
+
+{% block content %}
+<h1>Liste des opérations</h1>
+
+<a href="{% url 'base:operations_create' %}" class="btn btn-primary mb-3">Ajouter une opération</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Type d'opération</th>
+            <th>Entreprise</th>
+            <th>Point de collecte</th>
+            <th>Type de déchet</th>
+            <th>Quantité (tonnes)</th>
+            <th>Date d'opération</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for operation in operations %}
+        <tr>
+            <td>{{ operation.get_type_operation_display }}</td>
+            <td>{{ operation.entreprise.nom }}</td>
+            <td>{{ operation.point_collecte.nom|default:"N/A" }}</td>
+            <td>{{ operation.type_dechet.nom }}</td>
+            <td>{{ operation.quantite }}</td>
+            <td>{{ operation.date_operation|date:"d/m/Y H:i" }}</td>
+            <td>
+                <a href="{% url 'base:operations_details' operation.id %}" class="btn btn-info btn-sm">Détails</a>
+                <a href="{% url 'base:operations_update' operation.id %}" class="btn btn-warning btn-sm">Modifier</a>
+                <a href="{% url 'base:operations_delete' operation.id %}" class="btn btn-danger btn-sm">Supprimer</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="7">Aucune opération enregistrée.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+

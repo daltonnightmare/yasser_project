@@ -1,1 +1,37 @@
-delete.html
+{% extends 'base/dechets/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header bg-danger text-white">
+            <h1 class="card-title">Supprimer le déchet</h1>
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Êtes-vous sûr de vouloir supprimer ce déchet ?</h5>
+            <p class="card-text">Cette action est irréversible.</p>
+
+            <dl class="row">
+                <dt class="col-sm-4">Entreprise :</dt>
+                <dd class="col-sm-8">{{ dechet.entreprise.user.username }}</dd>
+
+                <dt class="col-sm-4">Type de déchet :</dt>
+                <dd class="col-sm-8">{{ dechet.type_dechet.nom }}</dd>
+
+                <dt class="col-sm-4">Quantité :</dt>
+                <dd class="col-sm-8">{{ dechet.quantite }} tonnes</dd>
+
+                <dt class="col-sm-4">Date :</dt>
+                <dd class="col-sm-8">{{ dechet.date_dechet|date:"d/m/Y H:i" }}</dd>
+            </dl>
+
+            <form method="post" class="mt-4">
+                {% csrf_token %}
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-danger">Confirmer la suppression</button>
+                    <a href="{% url 'liste_dechets' %}" class="btn btn-secondary">Annuler</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

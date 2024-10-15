@@ -28,9 +28,9 @@
                 <td>{{ signalement.get_statut_display }}</td>
                 <td>{{ signalement.type_dechet }}</td>
                 <td>
-                    <a href="" class="btn btn-info btn-sm">Détails</a>
-                    <a href="" class="btn btn-warning btn-sm">Modifier</a>
-                    <a href="" class="btn btn-danger btn-sm">Supprimer</a>
+                    <a href="{% url 'base:signalements_details' signalement.id %}" class="btn btn-info btn-sm">Détails</a>
+                   
+                    <a href="{% url 'base:signalements_delete' signalement.id %}" class="btn btn-danger btn-sm">Supprimer</a>
                 </td>
             </tr>
             {% empty %}

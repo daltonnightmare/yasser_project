@@ -1,11 +1,34 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title></title>
-</head>
-<body>
+{% extends 'base/signalements/base_signalement.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Détails du Signalement</h1>
+    
+    <div class="card">
+        <div class="card-header">
+            <h2>Signalement ID: {{ signalement.id }}</h2>
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Informations</h5>
+            <p><strong>Type de Déchet :</strong> {{ signalement.type_dechet.nom }}</p>
+            <p><strong>Localisation :</strong> {{ signalement.localisation }}</p>
+            
+            {% if signalement.photo %}
+                <div class="mb-3">
+                    <strong>Photo :</strong><br>
+                    <img src="{{ signalement.photo.url }}" alt="Photo du signalement" class="img-fluid" style="max-width: 100%; height: auto;">
+                </div>
+            {% else %}
+                <p>Aucune photo disponible.</p>
+            {% endif %}
+            
+            <p><strong>Citoyen :</strong> {{ signalement.citoyen.username }}</p>
+        </div>
+        <div class="card-footer text-muted">
+            <p>Créé le : {{ signalement.date_signalement }}</p>
+        </div>
+    </div>
 
-</body>
-</html>
+    <a href="{% url 'base:signalements' %}" class="btn btn-primary mt-3">Retour à la liste des signalements</a>
+</div>
+
+{% endblock %}

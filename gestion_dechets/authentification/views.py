@@ -8,20 +8,24 @@ from django.contrib.messages import Message
 # Create your views here.
 
 def register(request):
-    
+    municipalitees = Municipalite.objects.all()
+    context = {
+        'municipalitees': municipalitees
+    }
     if request.method == 'POST':
         nom_utilisateur = request.POST.get('username')
         email = request.POST.get('email')
         mot_de_passe = request.POST.get('password1')
         confirmer_mot_de_passe = request.POST.get('password2')
         municipalite = request.POST.get('municipalite')
+        adresse = request.POST.get('adresse') 
         if mot_de_passe == confirmer_mot_de_passe:
             user = User.objects.create_user(username=nom_utilisateur, email=email, password=mot_de_passe, is_citoyen=True)
             user.save()
-            citoyen = Citoyen.objects.create(user = user, adresse = municipalite, municipalite=municipalite)
+            citoyen = Citoyen.objects.create(user=user, adresse=adresse, municipalite=municipalite)
             citoyen.save()
             return redirect('authentification:login')
-    return render(request, 'authentification/registrer.html')
+    return render(request, 'authentification/registrer.html', context)
 
 def register_Municipalite(request):
     return render(request, 'authentification/register_municipalite.html')

@@ -1,0 +1,62 @@
+{% extends 'base/dechets/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1>Liste des déchets</h1>
+
+    <a href="{% url 'base:dechets_create' %}" class="btn btn-primary mb-3">Ajouter un déchet</a>
+
+    <div id="map" style="height: 400px;" class="mb-3"></div>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Entreprise</th>
+                <th>Type de déchet</th>
+                <th>Quantité (tonnes)</th>
+                <th>Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for dechet in dechets %}
+            <tr>
+                <td>{{ dechet.entreprise.user.username }}</td>
+                <td>{{ dechet.type_dechet.nom }}</td>
+                <td>{{ dechet.quantite }}</td>
+                <td>{{ dechet.date_dechet|date:"d/m/Y H:i" }}</td>
+                <td>
+                    
+                    <a href="{% url 'base:dechets_details' dechet.id %}" class="btn btn-info btn-sm">Détails</a>
+                    <a href="{% url 'base:dechets_update' dechet.id %}" class="btn btn-warning btn-sm">Modifier</a>
+                    <a href="{% url 'base:dechets_delete' dechet.id %}" class="btn btn-danger btn-sm">Supprimer</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5">Aucun déchet enregistré.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+
+<script>
+    var dechetsJson = JSON.parse('{{ dechets_json|escapejs }}');
+
+    var map = L.map('map').setView([12.3714, -1.5197], 12);  // Centré sur Ouagadougou
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    L.geoJSON(dechetsJson, {
+        pointToLayer: function (feature, latlng) {
+            return L.marker(latlng).bindPopup(feature.properties.type_dechet);
+        }
+    }).addTo(map);
+</script>
+{% endblock %}
+

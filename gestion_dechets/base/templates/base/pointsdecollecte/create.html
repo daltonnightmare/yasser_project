@@ -1,1 +1,72 @@
-create.html
+{% extends 'base/pointsdecollecte/base.html' %}
+{% load leaflet_tags %}
+
+{% block extra_head %}
+    {% leaflet_js %}
+    {% leaflet_css %}
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1>Créer un nouveau point de collecte</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="nom">Nom</label>
+            <input type="text" class="form-control" id="nom" name="nom" required>
+        </div>
+        <div class="form-group">
+            <label for="adresse">Adresse</label>
+            <input type="text" class="form-control" id="adresse" name="adresse" required>
+        </div>
+        <div class="form-group">
+            <label for="municipalite">Municipalité</label>
+            <select class="form-control" id="municipalite" name="municipalite" required>
+                {% for municipalite in municipalites %}
+                    <option value="{{ municipalite.id }}">{{ municipalite.nom }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="types_dechets">Types de déchets</label>
+            <select multiple class="form-control" id="types_dechets" name="types_dechets" required>
+                {% for type in types_dechets %}
+                    <option value="{{ type.id }}">{{ type.nom }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="jours_operation">Jours d'opération</label>
+            <select class="form-control" id="jours_operation" name="jours_operation" required>
+                {% for jour in jours_choices %}
+                    <option value="{{ jour.0 }}">{{ jour.1 }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Localisation</label>
+            {% leaflet_map "pointcollecte_map" callback="window.map_init_basic" %}
+        </div>
+        <input type="hidden" id="localisation" name="localisation">
+        <button type="submit" class="btn btn-primary">Créer</button>
+    </form>
+</div>
+
+<script type="text/javascript">
+    function map_init_basic (map, options) {
+        var marker;
+        map.setView([12.3714, -1.5197], 13);  // Coordonnées de Ouagadougou
+
+        map.on('click', function(e) {
+            var lat = e.latlng.lat;
+            var lon = e.latlng.lng;
+            document.getElementById('localisation').value = lat + ',' + lon;
+            
+            if (marker) {
+                map.removeLayer(marker);
+            }
+            marker = L.marker([lat, lon]).addTo(map);
+        });
+    }
+</script>
+{% endblock %}

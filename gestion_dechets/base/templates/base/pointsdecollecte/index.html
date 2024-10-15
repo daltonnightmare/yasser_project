@@ -1,0 +1,35 @@
+{% extends 'base/pointsdecollecte/base.html' %}
+
+{% block content %}
+<h1>Liste des points de collecte</h1>
+
+<!-- Ajout d'un conteneur pour la carte -->
+<div id="map" style="height: 400px;"></div>
+
+<!-- Inclusion de Leaflet CSS et JS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+<!-- Données des points de collecte -->
+<script>
+    var pointsDeCollecte = JSON.parse('{{ points_collecte_json|escapejs }}');
+</script>
+
+<script>
+    // Initialisation de la carte centrée sur Ouagadougou
+    var map = L.map('map').setView([12.3714, -1.5197], 12); // Coordonnées de Ouagadougou
+
+    // Ajout d'une couche de tuiles OpenStreetMap
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    // Ajout des marqueurs pour chaque point de collecte
+    pointsDeCollecte.forEach(function(point) {
+        L.marker([point.localisation[1], point.localisation[0]])  // [latitude, longitude]
+            .addTo(map)
+            .bindPopup(point.nom);
+    });
+</script>
+
+{% endblock %}

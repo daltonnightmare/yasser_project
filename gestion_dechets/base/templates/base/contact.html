@@ -1,0 +1,52 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Contact - EcoGestion{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="text-center mb-5">Contactez-nous</h1>
+    <div class="row">
+        <div class="col-md-6 mb-4 mb-md-0">
+            <h3>Informations de contact</h3>
+            <ul class="list-unstyled">
+                <li><i class="fas fa-map-marker-alt me-2"></i> Saaba</li>
+                <li><i class="fas fa-phone me-2"></i> +226 70 70 70 70</li>
+                <li><i class="fas fa-envelope me-2"></i> contact@ecogestion.bf</li>
+            </ul>
+            <h3 class="mt-4">Heures d'ouverture</h3>
+            <p>Du lundi au vendredi : 9h00 - 18h00</p>
+            <div class="mt-4">
+                <h3>Suivez-nous</h3>
+                <a href="#" class="text-dark me-2"><i class="fab fa-facebook-f fa-2x"></i></a>
+                <a href="#" class="text-dark me-2"><i class="fab fa-twitter fa-2x"></i></a>
+                <a href="#" class="text-dark me-2"><i class="fab fa-instagram fa-2x"></i></a>
+                <a href="#" class="text-dark"><i class="fab fa-linkedin-in fa-2x"></i></a>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h3>Envoyez-nous un message</h3>
+            <form>
+                <div class="mb-3">
+                    <label for="name" class="form-label">Nom</label>
+                    <input type="text" class="form-control" id="name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" required>
+                </div>
+                <div class="mb-3">
+                    <label for="subject" class="form-label">Sujet</label>
+                    <input type="text" class="form-control" id="subject" required>
+                </div>
+                <div class="mb-3">
+                    <label for="message" class="form-label">Message</label>
+                    <textarea class="form-control" id="message" rows="5" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Envoyer</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

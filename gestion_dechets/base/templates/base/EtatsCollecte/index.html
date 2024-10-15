@@ -1,0 +1,61 @@
+{% extends 'base/EtatsCollecte/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1>Liste des états de collecte</h1>
+
+    <a href="{% url 'base:etats_collecte_create' %}" class="btn btn-primary mb-3">Ajouter un état de collecte</a>
+
+    <div id="map" style="height: 400px;" class="mb-3"></div>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Municipalité</th>
+                <th>Quartier</th>
+                <th>Dernière collecte</th>
+                <th>Prochaine collecte</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for etat in etats_collecte %}
+            <tr>
+                <td>{{ etat.municipalite.user.username }}</td>
+                <td>{{ etat.quartier }}</td>
+                <td>{{ etat.date_derniere_collecte|date:"d/m/Y H:i" }}</td>
+                <td>{{ etat.prochaine_collecte_prevue|date:"d/m/Y H:i" }}</td>
+                <td>
+                    <a href="{% url 'base:etats_collecte_details' etat.id %}" class="btn btn-info btn-sm">Détails</a>
+                    <a href="{% url 'base:etats_collecte_update' etat.id %}" class="btn btn-warning btn-sm">Modifier</a>
+                    <a href="{% url 'base:etats_collecte_delete' etat.id %}" class="btn btn-danger btn-sm">Supprimer</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5">Aucun état de collecte enregistré.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+
+<script>
+    // Les données seront injectées ici par Django
+    var etatsCollecteJson = JSON.parse('{{ etats_collecte_json|escapejs }}');
+
+    var map = L.map('map').setView([12.3714, -1.5197], 12);  // Centré sur Ouagadougou
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    L.geoJSON(etatsCollecteJson, {
+        pointToLayer: function (feature, latlng) {
+            return L.marker(latlng).bindPopup(feature.properties.quartier);
+        }
+    }).addTo(map);
+</script>
+{% endblock %}

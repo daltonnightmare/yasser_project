@@ -1,0 +1,62 @@
+{% extends 'base/operations/base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h1 class="card-title">Détails de l'opération</h1>
+        </div>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-4">Type d'opération :</dt>
+                <dd class="col-sm-8">{{ operation.get_type_operation_display }}</dd>
+
+                <dt class="col-sm-4">Entreprise :</dt>
+                <dd class="col-sm-8">{{ operation.entreprise.nom }}</dd>
+
+                <dt class="col-sm-4">Point de collecte :</dt>
+                <dd class="col-sm-8">
+                    {% if operation.point_collecte %}
+                        {{ operation.point_collecte.nom }}
+                    {% else %}
+                        <span class="text-muted">Non spécifié</span>
+                    {% endif %}
+                </dd>
+
+                <dt class="col-sm-4">Type de déchet :</dt>
+                <dd class="col-sm-8">{{ operation.type_dechet.nom }}</dd>
+
+                <dt class="col-sm-4">Quantité :</dt>
+                <dd class="col-sm-8">{{ operation.quantite }} tonnes</dd>
+
+                <dt class="col-sm-4">Date d'opération :</dt>
+                <dd class="col-sm-8">{{ operation.date_operation|date:"d/m/Y H:i" }}</dd>
+            </dl>
+
+            <div class="mt-4">
+                <h5>Informations supplémentaires :</h5>
+                <p>
+                    {% if operation.type_operation == 'COLLECTE' %}
+                        Cette opération concerne la collecte de déchets.
+                    {% elif operation.type_operation == 'TRAITEMENT' %}
+                        Cette opération concerne le traitement de déchets.
+                    {% elif operation.type_operation == 'RECYCLAGE' %}
+                        Cette opération concerne le recyclage de déchets.
+                    {% endif %}
+                </p>
+            </div>
+
+            <div class="mt-4 d-flex justify-content-between">
+                <a href="{% url 'base:operations_update' operation.id %}" class="btn btn-warning">
+                    <i class="fas fa-edit"></i> Modifier
+                </a>
+                <a href="{% url 'base:operations_delete' operation.id %}" class="btn btn-danger">
+                    <i class="fas fa-trash"></i> Supprimer
+                </a>
+                <a href="{% url 'base:liste_operations' %}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Retour à la liste
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

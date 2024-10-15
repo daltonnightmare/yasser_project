@@ -1,1 +1,41 @@
-update.html
+{% extends 'base/EtatsCollecte/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1>Modifier l'état de collecte</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="municipalite">Municipalité</label>
+            <select name="municipalite" id="municipalite" class="form-control" required>
+                {% for municipalite in municipalites %}
+                    <option value="{{ municipalite.id }}" {% if etat_collecte.municipalite.id == municipalite.id %}selected{% endif %}>
+                        {{ municipalite.user.username }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="quartier">Quartier</label>
+            <input type="text" name="quartier" id="quartier" class="form-control" value="{{ etat_collecte.quartier }}" required>
+        </div>
+        <div class="form-group">
+            <label for="date_derniere_collecte">Date de la dernière collecte</label>
+            <input type="datetime-local" name="date_derniere_collecte" id="date_derniere_collecte" class="form-control" 
+                   value="{{ etat_collecte.date_derniere_collecte|date:'Y-m-d\TH:i' }}" required>
+        </div>
+        <div class="form-group">
+            <label for="prochaine_collecte_prevue">Prochaine collecte prévue</label>
+            <input type="datetime-local" name="prochaine_collecte_prevue" id="prochaine_collecte_prevue" class="form-control" 
+                   value="{{ etat_collecte.prochaine_collecte_prevue|date:'Y-m-d\TH:i' }}" required>
+        </div>
+        <div class="form-group">
+            <label for="localisation">Localisation (latitude, longitude)</label>
+            <input type="text" name="localisation" id="localisation" class="form-control" 
+                   value="{% if etat_collecte.localisation %}{{ etat_collecte.localisation.y }}, {{ etat_collecte.localisation.x }}{% endif %}">
+        </div>
+        <button type="submit" class="btn btn-primary">Modifier l'état de collecte</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,1 +1,43 @@
-delete.html
+{% extends 'base/pointsdecollecte/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header bg-danger text-white">
+            <h1 class="card-title">Supprimer l'opération</h1>
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Êtes-vous sûr de vouloir supprimer cette opération ?</h5>
+            <p class="card-text">Cette action est irréversible.</p>
+
+            <dl class="row">
+                <dt class="col-sm-4">Type d'opération :</dt>
+                <dd class="col-sm-8">{{ operation.get_type_operation_display }}</dd>
+
+                <dt class="col-sm-4">Entreprise :</dt>
+                <dd class="col-sm-8">{{ operation.entreprise.nom }}</dd>
+
+                <dt class="col-sm-4">Point de collecte :</dt>
+                <dd class="col-sm-8">{{ operation.point_collecte.nom|default:"N/A" }}</dd>
+
+                <dt class="col-sm-4">Type de déchet :</dt>
+                <dd class="col-sm-8">{{ operation.type_dechet.nom }}</dd>
+
+                <dt class="col-sm-4">Quantité :</dt>
+                <dd class="col-sm-8">{{ operation.quantite }} tonnes</dd>
+
+                <dt class="col-sm-4">Date d'opération :</dt>
+                <dd class="col-sm-8">{{ operation.date_operation|date:"d/m/Y H:i" }}</dd>
+            </dl>
+
+            <form method="post" class="mt-4">
+                {% csrf_token %}
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-danger">Confirmer la suppression</button>
+                    <a href="{% url 'base:liste_operations' %}" class="btn btn-secondary">Annuler</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'base/dechets/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1>Ajouter un nouveau déchet</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="entreprise">Entreprise</label>
+            <select name="entreprise" id="entreprise" class="form-control" required>
+                {% for entreprise in entreprises %}
+                    <option value="{{ entreprise.id }}">{{ entreprise.user.username }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="type_dechet">Type de déchet</label>
+            <select name="type_dechet" id="type_dechet" class="form-control" required>
+                {% for type in types_dechets %}
+                    <option value="{{ type.id }}">{{ type.nom }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="quantite">Quantité (tonnes)</label>
+            <input type="number" step="0.01" name="quantite" id="quantite" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="date_dechet">Date</label>
+            <input type="datetime-local" name="date_dechet" id="date_dechet" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="localisation">Localisation (latitude, longitude)</label>
+            <input type="text" name="localisation" id="localisation" class="form-control" placeholder="Ex: 12.3714, -1.5197">
+        </div>
+        <button type="submit" class="btn btn-primary">Ajouter le déchet</button>
+    </form>
+</div>
+{% endblock %}
+

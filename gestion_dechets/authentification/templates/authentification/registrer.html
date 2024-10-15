@@ -42,7 +42,7 @@
                                 <label for="municipalite" class="form-label">Municipalité</label>
                                 <select>
                                     {% for municipalite in municipalitees %}
-                                    <option value="{{municipalite}}">{{municipalite}}</option>
+                                    <option value="{{municipalite}}">{{municipalite.nom}}</option>
                                     {% endfor %}
                                 </select>
 
@@ -52,6 +52,11 @@
                                 <h1>Aucune municipalitées pour le moment</h1>
                             </div>
                             {% endif %}
+
+                            <div class="mb-3">
+                                <label for="adresse" class="form-label">Adresse</label>
+                                <input type="text" class="form-control" id="adresse" name="adresse" required>
+                            </div>
 
                             <button type="submit" class="btn btn-primary w-100">S'inscrire</button>
 

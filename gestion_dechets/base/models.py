@@ -13,6 +13,7 @@ class Municipalite(models.Model):
         ('HAUTS-BASSINS', 'hauts-bassins'), ('NORD', 'nord'), ('PLATEAU-CENTRAL', 'plateau-central'), ('SAHEL', 'sahel'), 
         ('SUD-OUEST', 'sud-ouest'), 
     ]
+    nom = models.CharField(max_length=100, default='')
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='municipalite')
     region = models.CharField(max_length=100, unique=True, choices = REGION_CHOICES)
     population = models.IntegerField()
@@ -59,6 +60,7 @@ class DechetType(models.Model):
     
     def __str__(self):
         return self.nom
+    
     
 class Citoyen(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='citoyen')   
